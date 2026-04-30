@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
               dividerWidget(),
               const SizedBox(height: 40,),
 
-              // Google login
+              // Firebase Google login
               _googleLoginWidget(),
 
               const SizedBox(height: 40,),
