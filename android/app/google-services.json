@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "353030211267",
+    "project_id": "hospitalq-f370a",
+    "storage_bucket": "hospitalq-f370a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353030211267:android:874ad36e8241dc5a1dc476",
+        "android_client_info": {
+          "package_name": "com.example.hospital_q"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRqpbWG4myci_BE6LO-RXksDTbuNtnmdY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
