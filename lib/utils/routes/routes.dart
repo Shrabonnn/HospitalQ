@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hospital_q/utils/routes/routes_name.dart';
 import 'package:hospital_q/view/auth/login_screen.dart';
 import 'package:hospital_q/view/auth/register_screen.dart';
+import 'package:hospital_q/view/auth/verify_otp_screen.dart';
 import 'package:hospital_q/view/auth/welcome_screen.dart';
+import 'package:hospital_q/view/profile/profile_setting_screen.dart';
 import 'package:hospital_q/view/splash/splash_screen.dart';
 
 class Routes {
@@ -16,6 +18,10 @@ class Routes {
         return MaterialPageRoute(builder: (context)=> LoginScreen());
       case RoutesName.welcome:
         return MaterialPageRoute(builder: (context)=> WelcomeScreen());
+      case RoutesName.profileSetting:
+        return MaterialPageRoute(builder: (context)=> ProfileSettingScreen());
+      case RoutesName.verifyOtp:
+        return MaterialPageRoute(builder: (context)=> VerifyOtpScreen());
       default :
         return MaterialPageRoute(builder: (context)=>Scaffold(
           body: Center(
