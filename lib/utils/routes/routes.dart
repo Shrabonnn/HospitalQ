@@ -20,8 +20,14 @@ class Routes {
         return MaterialPageRoute(builder: (context)=> WelcomeScreen());
       case RoutesName.profileSetting:
         return MaterialPageRoute(builder: (context)=> ProfileSettingScreen());
-      case RoutesName.verifyOtp:
-        return MaterialPageRoute(builder: (context)=> VerifyOtpScreen());
+      // case RoutesName.verifyOtp:
+      //   final args = setting.arguments as Map<String, dynamic>;
+      //   return MaterialPageRoute(
+      //     builder: (_) => VerifyOtpScreen(
+      //       vid: args["vid"],
+      //       phoneNumber: args["phone"],
+      //     ),
+      //   );
       default :
         return MaterialPageRoute(builder: (context)=>Scaffold(
           body: Center(

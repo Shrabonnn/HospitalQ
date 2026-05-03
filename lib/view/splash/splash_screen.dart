@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hospital_q/utils/app_color.dart';
-import 'package:hospital_q/utils/images.dart';
+import 'package:hospital_q/resources/app_color.dart';
+import 'package:hospital_q/resources/images.dart';
 import 'package:hospital_q/utils/routes/routes_name.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen>
 
 
     Future.delayed(const Duration(milliseconds: 2500), () {
-      Navigator.pushNamed(context, RoutesName.verifyOtp);
+      Navigator.pushNamed(context, RoutesName.register);
     });
   }
 

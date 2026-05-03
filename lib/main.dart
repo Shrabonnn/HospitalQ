@@ -1,18 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hospital_q/utils/app_color.dart';
+import 'package:hospital_q/resources/app_color.dart';
 import 'package:hospital_q/utils/routes/routes.dart';
 import 'package:hospital_q/utils/routes/routes_name.dart';
 import 'package:hospital_q/view/auth/welcome_screen.dart';
 import 'package:hospital_q/view/splash/splash_screen.dart';
+import 'package:hospital_q/view_model/auth/auth_view_model.dart';
 import 'package:hospital_q/view_model/auth/welcome_view_model.dart';
 import 'package:provider/provider.dart';
 
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_)=> WelcomeViewModel())
+          ChangeNotifierProvider(create: (_)=> WelcomeViewModel()),
+          ChangeNotifierProvider(create: (_)=> AuthViewModel()),
         ],
         child: MaterialApp(
       theme: ThemeData(

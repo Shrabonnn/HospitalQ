@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/app_color.dart';
+import '../../resources/app_color.dart';
 import '../../view_model/auth/welcome_view_model.dart';
 
 class WelcomeScreen extends StatelessWidget {

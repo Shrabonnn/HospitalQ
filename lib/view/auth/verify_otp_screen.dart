@@ -1,15 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hospital_q/utils/app_color.dart';
+import 'package:hospital_q/resources/app_color.dart';
+import 'package:hospital_q/utils/app_snackbar.dart';
+import 'package:hospital_q/utils/routes/routes_name.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
-  const VerifyOtpScreen({super.key});
+
+  final String vid;
+  final String phoneNumber;
+  const VerifyOtpScreen({super.key, required this.vid, required this.phoneNumber});
+
 
   @override
   State<VerifyOtpScreen> createState() => _VerifyOtpScreenState();
 }
 
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
+
+  // otp store
+  var code ="";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +34,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
             const SizedBox(height: 8),
 
             Text(
-              "Sent to -(mobile number)",
+              "Sent to ${widget.phoneNumber}",
               style: Theme.of(
                 context,
               ).textTheme.titleMedium?.copyWith(color: Colors.black54),
@@ -35,7 +45,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
               child: MaterialPinField(
                 length: 6,
                 onCompleted: (pin) => print('PIN: $pin'),
-                onChanged: (value) => print('Changed: $value'),
+                onChanged: (value) => code = value,
                 theme: MaterialPinTheme(
                   shape: MaterialPinShape.outlined,
                   cellSize: Size(46, 54),
@@ -48,7 +58,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
             SizedBox(height: 8,),
             Center(child: Text("Resend OTP in ( Second )")),
             SizedBox(height: 16,),
-            ElevatedButton(onPressed: (){}, child: Text("Verify")),
+            ElevatedButton(onPressed: (){
+              signIn();
+            }, child: Text("Verify")),
             SizedBox(height: 8,),
             Center(child: Text("Wrong number? Go back"))
 
@@ -57,5 +69,22 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         ),
       ),
     );
+  }
+
+  void signIn() async{
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: widget.vid,
+        smsCode: code
+    );
+
+    try{
+      await FirebaseAuth.instance.signInWithCredential(credential).then((
+          value) {
+        Navigator.pushNamed(context, RoutesName.welcome);
+      });
+    }on FirebaseAuthException catch(e){
+      AppSnackbar.snackBarMessage(context, e.toString());
+    }catch(e){
+      AppSnackbar.snackBarMessage(context, e.toString());}
   }
 }
