@@ -5,6 +5,7 @@ import 'package:hospital_q/resources/app_color.dart';
 import 'package:hospital_q/utils/app_snackbar.dart';
 import 'package:hospital_q/utils/routes/routes_name.dart';
 import 'package:hospital_q/view/auth/verify_otp_screen.dart';
+import 'package:hospital_q/view_model/auth/welcome_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../resources/images.dart';
@@ -46,6 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final authVM = Provider.of<AuthViewModel>(context, listen: false,);
+    final welcomeVM = Provider.of<WelcomeViewModel>(context, listen: false,);
     return Scaffold(
       backgroundColor: AppColor.background,
       body: SingleChildScrollView(
@@ -180,11 +182,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     builder: (context,vm,child){
                       return ElevatedButton (
                         onPressed: () async{
-                          //sendcode();
+
                           if (_formkey.currentState!.validate()) {
+
+                            final role = welcomeVM.isPatient ? "patient" : "staff";
+
                             String? error = await authVM.register(
                               emailController.text.trim(),
                               passwordController.text.trim(),
+                              nameController.text.trim(), // pass name
+                              role,
                             );
 
                             if (error == null) {

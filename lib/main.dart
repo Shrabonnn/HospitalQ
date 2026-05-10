@@ -8,6 +8,8 @@ import 'package:hospital_q/view/auth/welcome_screen.dart';
 import 'package:hospital_q/view/splash/splash_screen.dart';
 import 'package:hospital_q/view_model/auth/auth_view_model.dart';
 import 'package:hospital_q/view_model/auth/welcome_view_model.dart';
+import 'package:hospital_q/view_model/doctor_view_model.dart';
+import 'package:hospital_q/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
 
 
@@ -26,6 +28,8 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (_)=> WelcomeViewModel()),
           ChangeNotifierProvider(create: (_)=> AuthViewModel()),
+          ChangeNotifierProvider(create: (_) => HomeViewModel()),
+          ChangeNotifierProvider(create: (_) => DoctorViewModel()),
         ],
         child: MaterialApp(
       theme: ThemeData(

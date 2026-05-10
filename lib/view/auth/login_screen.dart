@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../../resources/images.dart';
 import '../../utils/utils.dart';
 import '../../view_model/auth/auth_view_model.dart';
+import '../../view_model/auth/welcome_view_model.dart';
 import 'auth_widgets/divider_widget.dart';
 import 'auth_widgets/google_login_widget.dart';
 
@@ -47,6 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
 
     final authVM = Provider.of<AuthViewModel>(context, listen: false,);
+    final welcomeVM = Provider.of<WelcomeViewModel>(context, listen: false);
+
     return Scaffold(
       backgroundColor: AppColor.background,
       body: SingleChildScrollView(
@@ -151,13 +154,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
 
+                            final role = welcomeVM.isPatient ? "patient" : "staff";
                             String? error = await authVM.login(
                               emailController.text.trim(),
                               passwordController.text.trim(),
+                              role,
                             );
 
                             if (error == null) {
-                              Navigator.pushReplacementNamed(context, RoutesName.home);
+                              Navigator.pushReplacementNamed(context, RoutesName.profileSetting);
                             } else {
                               AppSnackbar.snackBarMessage(context, error);
                             }

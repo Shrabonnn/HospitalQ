@@ -6,4 +6,5 @@ class RoutesName {
   static const String welcome ='welcome_screen';
   static const String profileSetting ='profileSetting_screen';
   static const String verifyOtp ='verifyOtp_screen';
+  static const String navbar ='navBar_screen';
 }

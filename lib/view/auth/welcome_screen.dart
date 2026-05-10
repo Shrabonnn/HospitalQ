@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_q/utils/app_snackbar.dart';
+import 'package:hospital_q/utils/routes/routes_name.dart';
 import 'package:provider/provider.dart';
 
 import '../../resources/app_color.dart';
@@ -76,6 +78,11 @@ class WelcomeScreen extends StatelessWidget {
               onPressed: () {
 
                 print(welcomeProvider.selectedRole);
+                if (!welcomeProvider.hasSelectedRole) {
+                  AppSnackbar.snackBarMessage(context, "Please select a role");
+                  return;
+                }
+                Navigator.pushNamed(context, RoutesName.login);
 
               },
               child: const Text("Continue"),

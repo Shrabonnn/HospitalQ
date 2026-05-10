@@ -4,6 +4,7 @@ import 'package:hospital_q/view/auth/login_screen.dart';
 import 'package:hospital_q/view/auth/register_screen.dart';
 import 'package:hospital_q/view/auth/verify_otp_screen.dart';
 import 'package:hospital_q/view/auth/welcome_screen.dart';
+import 'package:hospital_q/view/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:hospital_q/view/profile/profile_setting_screen.dart';
 import 'package:hospital_q/view/splash/splash_screen.dart';
 
@@ -20,7 +21,10 @@ class Routes {
         return MaterialPageRoute(builder: (context)=> WelcomeScreen());
       case RoutesName.profileSetting:
         return MaterialPageRoute(builder: (context)=> ProfileSettingScreen());
-      // case RoutesName.verifyOtp:
+      case RoutesName.navbar:
+        return MaterialPageRoute(builder: (context)=> BottomNavBar());
+
+    // case RoutesName.verifyOtp:
       //   final args = setting.arguments as Map<String, dynamic>;
       //   return MaterialPageRoute(
       //     builder: (_) => VerifyOtpScreen(

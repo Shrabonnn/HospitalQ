@@ -1,9 +1,51 @@
 // lib/view_models/home_view_model.dart
 
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
+import 'package:hospital_q/model/department_model.dart';
+import 'package:hospital_q/repository/department_repository.dart';
 import '../model/hospital_model.dart';
 
 class HomeViewModel extends ChangeNotifier {
+
+  final DepartmentRepository _repository = DepartmentRepository();
+
+
+  List<DepartmentModel> _departments = [];
+  bool _isLoading = false;
+  String? _error;
+  StreamSubscription<List<DepartmentModel>>? _departmentSubscription; // 👈 hold the sub
+
+
+  List<DepartmentModel> get departments => _departments;
+  bool get isLoading => _isLoading;
+
+  HomeViewModel() {
+    fetchDepartments();
+    _initGreeting();
+  }
+
+  void fetchDepartments() {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    _departmentSubscription = _repository.fetchDepartments().listen((data) {
+        _departments = data;
+        _isLoading = false;
+        _error = null;
+        notifyListeners();
+      },
+      onError: (e) {
+        _error = e.toString();
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
+  }
+
+
 
   // ── Private State ──────────────────────────────────
   String _userName = 'Rahim Uddin';
@@ -16,48 +58,9 @@ class HomeViewModel extends ChangeNotifier {
   final String _activeDepartment = 'Medicine';
   final String _activeHospitalShort = 'DMCH';
 
-  final List<HospitalModel> _hospitals = const [
-    HospitalModel(
-      name: 'Dhaka Medical College',
-      address: 'Bakshibazar, Dhaka',
-      distance: '1.2 km',
-      isOpen: true,
-      departments: 6,
-    ),
-    HospitalModel(
-      name: 'Sir Salimullah Medical',
-      address: 'Mitford, Dhaka',
-      distance: '2.4 km',
-      isOpen: true,
-      departments: 4,
-    ),
-    HospitalModel(
-      name: 'Shaheed Suhrawardy',
-      address: 'Sher-e-Bangla Nagar',
-      distance: '4.1 km',
-      isOpen: false,
-      departments: 5,
-    ),
-    HospitalModel(
-      name: 'National Heart Foundation',
-      address: 'Mirpur, Dhaka',
-      distance: '5.3 km',
-      isOpen: false,
-      departments: 3,
-    ),
-    HospitalModel(
-      name: 'BSMMU Hospital',
-      address: 'Shahbag, Dhaka',
-      distance: '3.8 km',
-      isOpen: true,
-      departments: 8,
-    ),
-  ];
 
-  // ── Constructor ────────────────────────────────────
-  HomeViewModel() {
-    _initGreeting();
-  }
+
+
 
   // ── Public Getters ────────
   String get userName => _userName;
@@ -68,7 +71,6 @@ class HomeViewModel extends ChangeNotifier {
   int get waitMinutes => _waitMinutes;
   String get activeDepartment => _activeDepartment;
   String get activeHospitalShort => _activeHospitalShort;
-  List<HospitalModel> get hospitals => List.unmodifiable(_hospitals);
 
   // ── Business Logic ─────────────────────────────────
   void _initGreeting() {
