@@ -9,9 +9,14 @@ import '../../model/hospital_model.dart';
 import '../../view_model/home_view_model.dart';
 import '../departments/hospital_department_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<HomeViewModel>();

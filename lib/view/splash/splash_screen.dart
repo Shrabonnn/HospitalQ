@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hospital_q/resources/app_color.dart';
 import 'package:hospital_q/resources/images.dart';
 import 'package:hospital_q/utils/routes/routes_name.dart';
+import 'package:hospital_q/view_model/auth/auth_view_model.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,8 +15,9 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+
+
   late AnimationController _ctrl;
   late Animation<double> _fade;
   late Animation<double> _scale;
@@ -46,7 +50,9 @@ class _SplashScreenState extends State<SplashScreen>
 
 
     Future.delayed(const Duration(milliseconds: 2500), () {
-      Navigator.pushNamed(context, RoutesName.navbar);
+      final firebaseUser = FirebaseAuth.instance.currentUser;
+
+      (firebaseUser == null ) ? Navigator.pushNamed(context, RoutesName.welcome) : Navigator.pushNamed(context, RoutesName.navbar);
     });
   }
 

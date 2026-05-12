@@ -162,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
 
                             if (error == null) {
-                              Navigator.pushReplacementNamed(context, RoutesName.profileSetting);
+                              Navigator.pushReplacementNamed(context, RoutesName.navbar);
                             } else {
                               AppSnackbar.snackBarMessage(context, error);
                             }

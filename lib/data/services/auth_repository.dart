@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hospital_q/model/userModel.dart';
 
 class AuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -13,16 +14,16 @@ class AuthRepository {
     final user = result.user;
 
     if (user != null) {
-      // Step 2: Firestore এ check করো এই user টা selected role এ আছে কিনা
+
       final doc = await _firestore
           .collection('users')
-          .doc(role) // "patient" or "staff"
+          .doc(role)
           .collection('accounts')
           .doc(user.uid)
           .get();
 
       if (!doc.exists) {
-        // Role match করেনি — logout করে error throw করো
+
         await _auth.signOut();
         throw Exception('You are not registered as a ${role}. Please select the correct role.');
       }
@@ -35,9 +36,9 @@ class AuthRepository {
       String email,
       String password,
       String name,
-      String role, // "patient" or "staff"
+      String role,
       ) async {
-    // Step 1: Firebase Auth
+
     final result = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -46,14 +47,14 @@ class AuthRepository {
     final user = result.user;
 
     if (user != null) {
-      // Step 2: parent document টা আগে create করো
+
       final roleDocRef = _firestore.collection('users').doc(role);
 
       await roleDocRef.set({
         'createdAt': FieldValue.serverTimestamp(),
-      }, SetOptions(merge: true)); // merge:true মানে আগে থাকলে overwrite হবে না
+      }, SetOptions(merge: true));
 
-      // Step 3: এখন subcollection এ user save করো
+
       await roleDocRef.collection('accounts').doc(user.uid).set({
         'uid': user.uid,
         'name': name,
@@ -66,7 +67,59 @@ class AuthRepository {
     return user;
   }
 
+  Future<void> updateProfile(UserModel user) async {
+    if (user.role == null || user.role!.isEmpty) {
+      throw Exception('Role is missing. Cannot update profile.');
+    }
+
+    await _firestore
+        .collection('users')
+        .doc(user.role)
+        .collection('accounts')
+        .doc(user.uid)
+        .set({
+      'name': user.name,
+      'phone': user.phone,
+      'age': user.age,
+      'bloodGroup': user.bloodGroup,
+    }, SetOptions(merge: true));
+  }
+
+  Future<UserModel?> fetchUserProfile(String uid, String role) async {
+    final doc = await _firestore
+        .collection('users')
+        .doc(role)
+        .collection('accounts')
+        .doc(uid)
+        .get();
+
+    if (doc.exists) {
+      return UserModel.fromMap(doc.data()!);
+    }
+    return null;
+  }
+
+  Future<void> saveProfileDetails({
+    required String uid,
+    required String role,
+    required String phone,
+    required String age,
+    required String bloodGroup,
+  }) async {
+    await _firestore
+        .collection('users')
+        .doc(role)
+        .collection('accounts')
+        .doc(uid)
+        .set({
+      'phone': phone,
+      'age': age,
+      'bloodGroup': bloodGroup,
+    }, SetOptions(merge: true));
+  }
+
   Future<void> logout() async {
     await _auth.signOut();
+
   }
 }

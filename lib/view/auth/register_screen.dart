@@ -195,7 +195,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             );
 
                             if (error == null) {
-                              Navigator.pushNamed(context, RoutesName.home);
+                              Navigator.pushNamed(context, RoutesName.profileSetting);
                             } else {
                               AppSnackbar.snackBarMessage(context, error);
                             }
